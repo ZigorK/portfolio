@@ -1,3 +1,9 @@
+from flask import Flask
+from threading import Thread
+from flask import render_template
+import serial
+import time
+
 app = Flask(__name__)
 
 ArduinoSerial = serial.Serial('COM6', 9600)
@@ -13,11 +19,10 @@ def readTemp():
 
 @app.route('/')
 def index():
-    return render_template("temp.html", dataLM = tempLM, dataDS = tempDS)
+    return render_template("temp.html", dataLM=tempLM, dataDS= tempDS)
 
 T = Thread(target=readTemp)
 T.start()
 
 if __name__ == 'main':
     app.run()
-
